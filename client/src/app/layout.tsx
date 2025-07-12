@@ -3,7 +3,10 @@ import "@/styles/globals.css";
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 
+import { ClerkProvider } from "@clerk/nextjs";
+
 import { TRPCReactProvider } from "@/trpc/react";
+import Header from "@/components/header";
 
 export const metadata: Metadata = {
   title: "RAG Chat App",
@@ -20,10 +23,19 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${geist.variable}`}>
-      <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" className={`${geist.variable}`}>
+        <body>
+          <TRPCReactProvider>
+            <main>
+              <Header />
+              <div className="container mx-auto h-full w-full px-4">
+                {children}
+              </div>
+            </main>
+          </TRPCReactProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
